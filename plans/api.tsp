@@ -26,7 +26,10 @@ using TypeSpec.OpenAPI;
 @server("https://api.example.com", "Production")
 namespace CallBooking;
 
-/** Статус слота в UI. */
+/**
+ * Статус слота в UI.
+ * Только для дат внутри 14-дневного окна; слоты вне окна API не возвращает.
+ */
 enum SlotStatus {
   available,
   booked,
@@ -152,7 +155,7 @@ model DayAvailability {
 
   totalSlotCount: int32;
 
-  /** false для дат вне 14-дневного окна или в прошлом. */
+  /** false, если freeSlotCount = 0 (день в окне, но бронирование невозможно). */
   isSelectable: boolean;
 }
 
@@ -371,7 +374,8 @@ namespace Days {
    * Слоты конкретного дня для выбранного типа события.
    *
    * Занятость считается по всем бронированиям на дату.
-   * Дата должна быть в 14-дневном окне.
+   * Дата должна быть в 14-дневном окне [windowStart, windowEnd];
+   * иначе 400 — слоты вне окна не возвращаются.
    */
   @get
   @route("{date}/slots")
@@ -402,8 +406,8 @@ namespace Calendar {
   /**
    * Календарь 14-дневного окна для типа события.
    *
-   * Возвращает по одному элементу на каждый день
-   * [windowStart, windowEnd] с freeSlotCount.
+   * Возвращает только дни [windowStart, windowEnd] с freeSlotCount.
+   * Даты вне окна в ответ не включаются.
    */
   @get
   @doc("Календарь 14-дневного окна")
