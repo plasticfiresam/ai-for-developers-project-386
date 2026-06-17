@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: call-booking
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    envVars:
+      - key: TIMEZONE
+        value: Europe/Moscow
+      - key: DATABASE_PATH
+        value: /app/data/app.db
+      - key: STATIC_DIR
+        value: /app/backend/public

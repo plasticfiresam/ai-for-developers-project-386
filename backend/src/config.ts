@@ -1,6 +1,7 @@
 export const config = {
   port: Number(process.env.PORT ?? 3000),
   databasePath: process.env.DATABASE_PATH ?? './data/app.db',
+  staticDir: process.env.STATIC_DIR,
   timezone: process.env.TIMEZONE ?? 'Europe/Moscow',
   workDayStartMinutes: 9 * 60,
   workDayEndMinutes: 19 * 60,

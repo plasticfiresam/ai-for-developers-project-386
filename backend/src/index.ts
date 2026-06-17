@@ -8,6 +8,7 @@ import { eventTypesRoutes } from './routes/event-types.js';
 import { bookingsRoutes } from './routes/bookings.js';
 import { calendarRoutes } from './routes/calendar.js';
 import { daysRoutes } from './routes/days.js';
+import { registerStatic } from './static.js';
 
 const app = Fastify({ logger: true });
 
@@ -29,6 +30,7 @@ await app.register(eventTypesRoutes);
 await app.register(bookingsRoutes);
 await app.register(calendarRoutes);
 await app.register(daysRoutes);
+await registerStatic(app);
 
 getDb();
 
