@@ -1,7 +1,7 @@
 .PHONY: help install install-frontend install-backend \
         dev dev-frontend dev-backend \
         build build-frontend build-backend \
-        preview-frontend
+        preview-frontend test-e2e
 
 FRONTEND_DIR := frontend
 BACKEND_DIR  := backend
@@ -42,5 +42,8 @@ build-backend: ## Сборка backend (если каталог существу
 
 preview-frontend: build-frontend ## Просмотр production-сборки frontend
 	cd $(FRONTEND_DIR) && npm run preview
+
+test-e2e: ## Playwright e2e (backend + frontend поднимает Playwright)
+	cd e2e && npm install && npx playwright install chromium && npm test
 
 .DEFAULT_GOAL := help
