@@ -73,6 +73,19 @@
 - `/calendar` — 14-дневное окно для типа события
 - `/days/{date}/slots` — слоты конкретного дня
 
+Backend реализован в каталоге `backend/` и соответствует контракту `api.tsp`.
+
+---
+
+## Стек и запуск
+
+| Часть | Расположение |
+|-------|--------------|
+| Frontend | `frontend/` — React + Vite + Mantine |
+| Backend | `backend/` — Fastify + SQLite (`node:sqlite`) |
+
+Инструкции по установке, запуску и проверке API: [README.md](../README.md).
+
 ---
 
 ## Вне scope

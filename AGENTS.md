@@ -9,15 +9,43 @@ MVP сервиса бронирования звонков (аналог упр�
 
 Ключевые правила: рабочие часы **09:00–19:00**; на одно время — одна запись (конфликт по интервалу, не по типу события); занятость проверяется на сервере.
 
-Стек и структура кода — на усмотрение реализации. На этапе планирования зафиксировано только внешнее поведение и API-контракт.
+## Стек
+
+| Часть | Технологии |
+|-------|------------|
+| Frontend | React 19, Vite 7, Mantine 9, TanStack Query, React Router — каталог `frontend/` |
+| Backend | Node.js 22+, TypeScript, Fastify, SQLite (`node:sqlite`) — каталог `backend/` |
+
+## Структура репозитория
+
+```
+frontend/src/api/     — HTTP-клиент и типы (ориентир для форматов ответов API)
+backend/src/routes/   — REST-эндпоинты
+backend/src/domain/   — слоты, конфликты, таймзона, валидация
+backend/src/db/       — SQLite-схема и подключение
+backend/src/repositories/ — доступ к event_types и bookings
+plans/                — контракт и требования
+```
+
+## Запуск
+
+```bash
+make install
+make dev-backend   # :3000
+make dev-frontend  # :5173
+```
+
+Backend читает `backend/.env` (см. `backend/.env.example`): `PORT`, `DATABASE_PATH`, `TIMEZONE` (по умолчанию `Europe/Moscow`).
 
 ## Документация
 
 | Файл | Содержание |
 |------|------------|
-| [plans/project-description.md](plans/project-description.md) | Краткое описание проекта, роли, правила, ссылки |
+| [README.md](README.md) | Быстрый старт, curl-примеры |
+| [plans/project-description.md](plans/project-description.md) | Краткое описание проекта, роли, правила |
 | [plans/functional-requirements.md](plans/functional-requirements.md) | Функциональные требования (2 итерации), флоу, валидация, критерии приёмки |
 | [plans/user-scenarios.md](plans/user-scenarios.md) | Пользовательские сценарии гостя, владельца и граничные случаи |
 | [plans/api.tsp](plans/api.tsp) | TypeSpec-контракт REST API |
+| [backend/.env.example](backend/.env.example) | Переменные окружения backend |
 
-При реализации ориентироваться на `api.tsp` и `functional-requirements.md`; расхождения с `project-description.md` разрешать в пользу двух первых документов.
+При реализации ориентироваться на `api.tsp` и `functional-requirements.md`; форматы JSON-ответов — на `frontend/src/api/types.ts` (flat JSON, без обёрток `@body`-полей TypeSpec).
